@@ -1,0 +1,35 @@
+🔧 8086 Giriş/Çıkış (I/O) Mekanizması
+8086 işlemcisi iki tür I/O yöntemi kullanır:
+
+1. Isolated I/O (Ayrık G/Ç)
+Bellek ve I/O adres alanları ayrıdır.
+
+8086, I/O için IN ve OUT komutlarını kullanır.
+
+En fazla 64K (65536) farklı I/O portu adreslenebilir (0x0000 – 0xFFFF).
+
+2. Memory-Mapped I/O (Bellek eşlemeli G/Ç)
+I/O aygıtları, bellek adres alanında yer alır.
+
+Normal bellek erişim komutları (MOV, LDS, STOS, vb.) ile kullanılır.
+
+🛠️ Temel G/Ç Komutları (Isolated I/O)
+🡆 IN Komutu
+Bir I/O portundan veri giriş yapılır (port → alıcı register).
+
+IN AL, 60h   ; 60h portundan 8-bit veri oku ve AL register’ına koy
+IN AX, DX    ; DX register’ında belirtilen porttan 16-bit veri oku ve AX’e aktar
+🡆 OUT Komutu
+Register’daki veri bir I/O portuna çıkış yapılır (register → port).
+
+OUT 64h, AL  ; AL register’ındaki veriyi 64h portuna gönder
+OUT DX, AX   ; AX’teki 16-bit veriyi, DX’teki adrese gönder
+⚠️ IN ve OUT komutları sadece AL ve AX ile kullanılabilir (veri boyutu 8 ya da 16 bit olur).
+
+🧠 Kullanım Senaryosu
+Klavye veya fare gibi aygıtlardan veri alma ya da ekrana karakter gönderme gibi işlemlerde portlar kullanılır. Örneğin:
+
+
+MOV DX, 03F8h    ; COM1 portu (seri port)
+MOV AL, 'A'      ; Gönderilecek karakter
+OUT DX, AL       ; 'A' karakterini seri porta gönder
