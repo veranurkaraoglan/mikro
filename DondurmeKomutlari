@@ -1,0 +1,105 @@
+8086 mikroişlemcisinde "döndürme ifadeleri" (rotate instructions), bayt veya kelime verileri kendi içinde saat yönünde veya saat yönünün tersine döndürmek için kullanılır. 
+Bu komutlar genellikle bit düzeyinde işlemler için kullanılır. Döndürme işlemleri, bayt ya da kelimenin bitlerini döngüsel olarak yer değiştirir.
+
+🔁 Döndürme Komutları (Rotate Instructions)
+8086'da 4 temel döndürme komutu vardır:
+
+1. ROL (Rotate Left) – Sola döndür
+Veri sola doğru döndürülür.
+
+En yüksek (MSB – Most Significant Bit) bit, taşı (CF – Carry Flag) bayrağına aktarılır ve aynı zamanda en düşük bite (LSB) getirilir.
+
+Örnek:
+
+; AL = 1101 0101 (D5h)
+ROL AL, 1
+; Sonuç: AL = 1010 1011 (ABh), CF = 1
+2. ROR (Rotate Right) – Sağa döndür
+Veri sağa doğru döndürülür.
+
+En düşük (LSB) bit, taşı bayrağına aktarılır ve aynı zamanda en yüksek bite (MSB) getirilir.
+
+Örnek:
+
+; AL = 1101 0101 (D5h)
+ROR AL, 1
+; Sonuç: AL = 1110 1010 (EAh), CF = 1
+3. RCL (Rotate through Carry Left) – Taşı bayrağı ile birlikte sola döndür
+MSB, CF’ye gider.
+
+CF’deki değer LSB’ye gelir.
+
+Bu komut taşı bayrağını da döndürmeye katar.
+
+Örnek:
+
+; AL = 1001 0110, CF = 1
+RCL AL, 1
+; Sonuç: AL = 0010 1101, CF = 1
+4. RCR (Rotate through Carry Right) – Taşı bayrağı ile birlikte sağa döndür
+LSB, CF’ye gider.
+
+CF’deki değer MSB’ye gelir.
+
+Örnek:
+
+
+; AL = 1001 0110, CF = 1
+RCR AL, 1
+; Sonuç: AL = 1100 1011, CF = 0
+
+🔧 Notlar:
+ROL/ROR sadece veriyi döndürür, taşı bayrağını günceller.
+
+RCL/RCR hem veriyi hem de taşı bayrağını döndürme işlemine katar.
+
+Taşı bayrağı (CF) duruma göre 0 veya 1 olur ve zincirleme işlemlerde önemli olabilir.
+
+📘 Soru:
+Aşağıdaki komutlar çalıştırıldığında, AL ve CF’nin (taşı bayrağı) son değerleri ne olur?
+
+
+MOV AL, 11010110b   ; AL = D6h
+CLC                 ; Carry bayrağını temizle (CF = 0)
+RCL AL, 1
+🔍 Çözüm:
+1. İlk Durum:
+AL = 11010110
+
+CF = 0
+
+2. RCL AL, 1 komutu:
+Bu komut sola doğru döndürür, taşı bayrağını da bu döndürmeye dahil eder.
+
+İşlem Sırası:
+
+AL = 11010110
+
+CF = 0
+
+MSB (en soldaki bit) → CF olur → CF = 1
+
+Diğer bitler sola kayar.
+
+CF (eski değeri 0) → LSB (en sağdaki bit) olur.
+
+Yani:
+
+      1 1 0 1 0 1 1 0   (AL önceki)
+    CF: 0
+
+→ Döndür (RCL): 
+      1 1 0 1 0 1 1 0  --> sola kay
+    + [CF=0] → LSB
+
+Yeni AL: 10101100
+Yeni CF: 1 (MSB olan 1 oraya gitti)
+3. Sonuç:
+AL = 10101100b = ACh
+
+CF = 1
+
+✅ Cevap:
+
+AL = ACh
+CF = 1
